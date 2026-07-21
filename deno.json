@@ -1,0 +1,12 @@
+{
+  "version": "1.0.0",
+  "name": "@wogo/tardis-integration-prelude",
+  "license": "GPL-3.0-only",
+  "exports": {
+    ".": "./v4/mod.ts",
+    "./v4": "./v4/mod.ts"
+  },
+  "imports": {
+    "effect": "npm:effect@beta"
+  }
+}
