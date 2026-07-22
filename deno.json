@@ -1,9 +1,10 @@
 {
-  "version": "2.1.2",
+  "version": "2.2.0",
   "name": "@wogo/tardis-integration-prelude",
   "license": "GPL-3.0-only",
   "exports": {
     ".": "./src/mod.ts",
+    "./Schema": "./src/schema.ts",
     "./ServiceBuilder": "./src/service-builder.ts",
     "./ServiceMap": "./src/service-map.ts"
   },
