@@ -7,6 +7,12 @@ export interface ServiceMap {
 export const ServiceMap: Context.Service<ServiceMap, ServiceMap> = Context.Service<ServiceMap>("ServiceMap")
 
 /**
+ * Service Accesor
+ */
+export const getUrl = (serviceId: string): Effect.Effect<string, Cause.NoSuchElementError, ServiceMap> => 
+    ServiceMap.use(s => s.getUrl(serviceId))
+
+/**
  * Create a ServiceMap Layer from an Effect
  */
 export const effect: <E, R>(fn: Effect.Effect<ServiceMap, E, R>) => Layer.Layer<ServiceMap, E, Exclude<R, Scope.Scope>>

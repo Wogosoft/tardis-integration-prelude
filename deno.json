@@ -1,5 +1,5 @@
 {
-  "version": "2.1.0",
+  "version": "2.1.1",
   "name": "@wogo/tardis-integration-prelude",
   "license": "GPL-3.0-only",
   "exports": {
