@@ -2,12 +2,10 @@
 
 A base dependency for the Tardis integration.
 
-Currently, has a single purpose: Allow transforming requests made in @wogo/tardis-client-http-effect-v4
+Contains 3 structures:
 
-## Usage
+- Service Builder: Builds a client for a GRPC service
+- Service Factory: Creates Service Builders
+- Service Map: Stores URLs for Service Factories
 
-```ts
-import { RequestTransform } from "@wogo/tardis-integration-prelude";
-
-const addHeader = RequestTransform.layer(HttpClientRequest.setHeader("x-powered-by","wogo"))
-```
+This is to be used in code generation in Tardis Clients
