@@ -64,3 +64,12 @@ export const Record: <const Key extends Schema.Record.Key, const Value extends S
     // deno-lint-ignore no-explicit-any
     Schema.withDecodingDefaultTypeKey(Effect.succeed({} as any))
 )
+
+/**
+ * Same as Schema.Struct but already has Effect.withDecodingDefaultTypeKey 
+ * applied with the proto3 default
+ */
+export const Struct: <const Fields extends Schema.Struct.Fields>(fields: Fields) => Schema.withDecodingDefaultTypeKey<Schema.Struct<Fields>, never> = <const Fields extends Schema.Struct.Fields>(fields: Fields) => Schema.Struct(fields).pipe(
+    // deno-lint-ignore no-explicit-any
+    Schema.withDecodingDefaultTypeKey(Effect.succeed({} as any))
+)
