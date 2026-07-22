@@ -1,5 +1,5 @@
-import { type Effect, Context, type Schema } from "effect";
-import type { HttpBody, HttpClientError } from "effect/unstable/http" 
+import { Effect, pipe, type Schema } from "effect";
+import { type HttpBody, HttpClient, type HttpClientError, HttpClientRequest, HttpClientResponse } from "effect/unstable/http" 
 
 export interface OperationMeta {
     headers?: Record<string, string>,
@@ -31,5 +31,36 @@ export interface ServiceBuilder {
     >
 }
 
-export const ServiceBuilder: Context.Service<ServiceBuilder, ServiceBuilder> = 
-    Context.Service<ServiceBuilder>("ServiceBuilder")
+export class ServiceBuilder {
+    static make<
+        const BaseUrl extends string,
+        const ServiceId extends string
+    >(
+        baseUrl: BaseUrl,
+        serviceId: ServiceId
+    ): Effect.Effect<ServiceBuilder, never, HttpClient.HttpClient> {
+        return Effect.gen(function*(){
+            const client = yield* HttpClient.HttpClient;
+            const operation = <T extends string>(op: T) =>`${baseUrl}/${serviceId}/${op}` as const;
+
+            return {
+                makeOperation(config) {
+                    return (payload, meta) => Effect.gen(function*(){
+                    const url = operation(config.operationId);
+
+                    const request = yield* pipe(
+                        HttpClientRequest.post(url),
+                        req => meta?.headers ? HttpClientRequest.setHeaders(meta?.headers ?? {})(req): req,
+                        req => meta?.bearerToken ? HttpClientRequest.bearerToken(meta.bearerToken)(req): req,
+                        HttpClientRequest.schemaBodyJson(config.inputSchema)(payload)
+                    )
+
+                    const response = yield* client.execute(request);
+
+                    return yield* HttpClientResponse.schemaBodyJson(config.outputSchema)(response);
+                })
+                },
+            }
+        })
+    }
+}
