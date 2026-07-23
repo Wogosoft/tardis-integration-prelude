@@ -1,7 +1,7 @@
 /**
  * @module Schema module with default values
  */
-export { suspend } from "effect/Schema"
+export { suspend, Any, Unknown } from "effect/Schema"
 import { Effect, Schema } from "effect"
 
 /**
@@ -72,4 +72,12 @@ export const Record: <const Key extends Schema.Record.Key, const Value extends S
 export const Struct: <const Fields extends Schema.Struct.Fields>(fields: Fields) => Schema.withDecodingDefaultTypeKey<Schema.Struct<Fields>, never> = <const Fields extends Schema.Struct.Fields>(fields: Fields) => Schema.Struct(fields).pipe(
     // deno-lint-ignore no-explicit-any
     Schema.withDecodingDefaultTypeKey(Effect.succeed({} as any))
+)
+
+/**
+ * Same as Schema.Null but already has Effect.withDecodingDefaultTypeKey 
+ * applied with the proto3 default
+ */
+export const Null: Schema.withDecodingDefaultTypeKey<Schema.Null, never> = Schema.Null.pipe(
+    Schema.withDecodingDefaultTypeKey(Effect.succeed(null))
 )
