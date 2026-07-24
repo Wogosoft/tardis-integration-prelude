@@ -1,5 +1,5 @@
 {
-  "version": "2.2.2",
+  "version": "2.3.0",
   "name": "@wogo/tardis-integration-prelude",
   "license": "GPL-3.0-only",
   "exports": {
@@ -10,5 +10,10 @@
   },
   "imports": {
     "effect": "npm:effect@beta"
+  },
+  "lint": {
+    "rules": {
+      "exclude": ["require-await", "require-yield"]
+    }
   }
 }
